@@ -162,6 +162,9 @@ gui:
   # Length of commit hash in commits view. 0 shows '*' if NF icons aren't on.
   commitHashLength: 8
 
+  # Whether to show the divergence from the base branch in the branches view.
+  showDivergenceFromBaseBranch: none
+
   # Height of the command log view
   commandLogSize: 8
 

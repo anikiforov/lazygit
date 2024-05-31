@@ -194,7 +194,7 @@ func (self *BranchLoader) GetBehindBaseBranchValuesForAllBranches(
 	}
 
 	err := errg.Wait()
-	self.Log.Infof("time to get behind base branch values for all branches: %s", time.Since(t))
+	self.Log.Debugf("time to get behind base branch values for all branches: %s", time.Since(t))
 	renderFunc()
 	return err
 }

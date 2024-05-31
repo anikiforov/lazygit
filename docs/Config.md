@@ -163,6 +163,7 @@ gui:
   commitHashLength: 8
 
   # Whether to show the divergence from the base branch in the branches view.
+  # One of: 'none' | 'onlyArrow'  | 'arrowAndNumber'
   showDivergenceFromBaseBranch: none
 
   # Height of the command log view

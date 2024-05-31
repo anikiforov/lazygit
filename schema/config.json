@@ -326,7 +326,7 @@
             "onlyArrow",
             "arrowAndNumber"
           ],
-          "description": "Whether to show the divergence from the base branch in the branches view.",
+          "description": "Whether to show the divergence from the base branch in the branches view.\nOne of: 'none' | 'onlyArrow'  | 'arrowAndNumber'",
           "default": "none"
         },
         "commandLogSize": {

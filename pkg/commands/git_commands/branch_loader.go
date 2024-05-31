@@ -66,7 +66,7 @@ func NewBranchLoader(
 
 // Load the list of branches for the current repo
 func (self *BranchLoader) Load(reflogCommits []*models.Commit,
-	existingMainBranches *ExistingMainBranches,
+	mainBranches *MainBranches,
 	oldBranches []*models.Branch,
 	loadBehindCounts bool,
 	onWorker func(func() error),
@@ -142,7 +142,7 @@ func (self *BranchLoader) Load(reflogCommits []*models.Commit,
 
 	if loadBehindCounts && self.UserConfig.Gui.ShowDivergenceFromBaseBranch != "none" {
 		onWorker(func() error {
-			return self.GetBehindBaseBranchValuesForAllBranches(branches, existingMainBranches, renderFunc)
+			return self.GetBehindBaseBranchValuesForAllBranches(branches, mainBranches, renderFunc)
 		})
 	}
 
@@ -151,11 +151,11 @@ func (self *BranchLoader) Load(reflogCommits []*models.Commit,
 
 func (self *BranchLoader) GetBehindBaseBranchValuesForAllBranches(
 	branches []*models.Branch,
-	existingMainBranches *ExistingMainBranches,
+	mainBranches *MainBranches,
 	renderFunc func(),
 ) error {
-	mainBranches := existingMainBranches.Get()
-	if len(mainBranches) == 0 {
+	mainBranchRefs := mainBranches.Get()
+	if len(mainBranchRefs) == 0 {
 		return nil
 	}
 
@@ -164,7 +164,7 @@ func (self *BranchLoader) GetBehindBaseBranchValuesForAllBranches(
 
 	for _, branch := range branches {
 		errg.Go(func() error {
-			baseBranch, err := self.GetBaseBranch(branch, existingMainBranches)
+			baseBranch, err := self.GetBaseBranch(branch, mainBranches)
 			if err != nil {
 				return err
 			}

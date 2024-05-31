@@ -459,7 +459,7 @@ func (self *RefreshHelper) refreshBranches(refreshWorktrees bool, keepBranchSele
 
 	branches, err := self.c.Git().Loaders.BranchLoader.Load(
 		reflogCommits,
-		self.c.Model().ExistingMainBranches,
+		self.c.Model().MainBranches,
 		self.c.Model().Branches,
 		loadBehindCounts,
 		func(f func() error) {

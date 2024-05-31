@@ -180,6 +180,7 @@ func (self *BranchLoader) GetBehindBaseBranchValuesForAllBranches(
 				if err != nil {
 					return err
 				}
+				// The format of the output is "<ahead>\t<behind>"
 				aheadBehindStr := strings.Split(strings.TrimSpace(output), "\t")
 				if len(aheadBehindStr) == 2 {
 					if value, err := strconv.Atoi(aheadBehindStr[1]); err == nil {

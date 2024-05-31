@@ -207,8 +207,8 @@ func (self *BranchLoader) GetBehindBaseBranchValuesForAllBranches(
 // considered an error condition, so callers need to check both the returned
 // error and whether the returned base branch is empty (and possibly react
 // differently in both cases).
-func (self *BranchLoader) GetBaseBranch(branch *models.Branch, existingMainBranches *ExistingMainBranches) (string, error) {
-	mergeBase := existingMainBranches.GetMergeBase(branch.FullRefName())
+func (self *BranchLoader) GetBaseBranch(branch *models.Branch, mainBranches *MainBranches) (string, error) {
+	mergeBase := mainBranches.GetMergeBase(branch.FullRefName())
 	if mergeBase == "" {
 		return "", nil
 	}
@@ -218,7 +218,7 @@ func (self *BranchLoader) GetBaseBranch(branch *models.Branch, existingMainBranc
 			Arg("--contains").
 			Arg(mergeBase).
 			Arg("--format=%(refname)").
-			Arg(existingMainBranches.Get()...).
+			Arg(mainBranches.Get()...).
 			ToArgv(),
 	).DontLog().RunWithOutput()
 	if err != nil {

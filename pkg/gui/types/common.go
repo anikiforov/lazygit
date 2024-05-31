@@ -281,7 +281,7 @@ type Model struct {
 	// we're on a detached head because we're rebasing or bisecting.
 	CheckedOutBranch string
 
-	ExistingMainBranches *git_commands.ExistingMainBranches
+	MainBranches *git_commands.MainBranches
 
 	// for displaying suggestions while typing in a file name
 	FilesTrie *patricia.Trie

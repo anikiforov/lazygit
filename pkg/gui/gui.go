@@ -379,7 +379,7 @@ func (gui *Gui) resetState(startArgs appTypes.StartArgs) types.Context {
 			BisectInfo:            git_commands.NewNullBisectInfo(),
 			FilesTrie:             patricia.NewTrie(),
 			Authors:               map[string]*models.Author{},
-			ExistingMainBranches:  git_commands.NewExistingMainBranches(gui.UserConfig.Git.MainBranches, gui.os.Cmd),
+			MainBranches:          git_commands.NewMainBranches(gui.UserConfig.Git.MainBranches, gui.os.Cmd),
 		},
 		Modes: &types.Modes{
 			Filtering:        filtering.New(startArgs.FilterPath, ""),

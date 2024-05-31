@@ -66,7 +66,7 @@ type GetCommitsOptions struct {
 	All bool
 	// If non-empty, show divergence from this ref (left-right log)
 	RefToShowDivergenceFrom string
-	ExistingMainBranches    *ExistingMainBranches
+	MainBranches            *MainBranches
 }
 
 // GetCommits obtains the commits of the current branch
@@ -103,9 +103,9 @@ func (self *CommitLoader) GetCommits(opts GetCommitsOptions) ([]*models.Commit, 
 	go utils.Safe(func() {
 		defer wg.Done()
 
-		ancestor = opts.ExistingMainBranches.GetMergeBase(opts.RefName)
+		ancestor = opts.MainBranches.GetMergeBase(opts.RefName)
 		if opts.RefToShowDivergenceFrom != "" {
-			remoteAncestor = opts.ExistingMainBranches.GetMergeBase(opts.RefToShowDivergenceFrom)
+			remoteAncestor = opts.MainBranches.GetMergeBase(opts.RefToShowDivergenceFrom)
 		}
 	})
 

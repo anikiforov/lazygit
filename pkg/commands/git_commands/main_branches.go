@@ -10,39 +10,45 @@ import (
 	"github.com/sasha-s/go-deadlock"
 )
 
-type ExistingMainBranches struct {
+type MainBranches struct {
+	// List of main branches configured by the user. Just the bare names.
 	configuredMainBranches []string
-	existingBranches       []string
+	// Which of these actually exist in the repository. Full ref names, and it
+	// could be either "refs/heads/..." or "refs/remotes/origin/..." depending
+	// on which one exists for a given bare name.
+	existingMainBranches []string
 
 	cmd   oscommands.ICmdObjBuilder
 	mutex *deadlock.Mutex
 }
 
-func NewExistingMainBranches(
+func NewMainBranches(
 	configuredMainBranches []string,
 	cmd oscommands.ICmdObjBuilder,
-) *ExistingMainBranches {
-	return &ExistingMainBranches{
+) *MainBranches {
+	return &MainBranches{
 		configuredMainBranches: configuredMainBranches,
-		existingBranches:       nil,
+		existingMainBranches:   nil,
 		cmd:                    cmd,
 		mutex:                  &deadlock.Mutex{},
 	}
 }
 
-func (self *ExistingMainBranches) Get() []string {
+// Get the list of main branches that exist in the repository. This is a list of
+// full ref names.
+func (self *MainBranches) Get() []string {
 	self.mutex.Lock()
 	defer self.mutex.Unlock()
 
-	if self.existingBranches == nil {
-		self.existingBranches = self.determineMainBranches()
+	if self.existingMainBranches == nil {
+		self.existingMainBranches = self.determineMainBranches()
 	}
 
-	return self.existingBranches
+	return self.existingMainBranches
 }
 
 // Return the merge base of the given refName with the closest main branch.
-func (self *ExistingMainBranches) GetMergeBase(refName string) string {
+func (self *MainBranches) GetMergeBase(refName string) string {
 	mainBranches := self.Get()
 	if len(mainBranches) == 0 {
 		return ""
@@ -65,7 +71,7 @@ func (self *ExistingMainBranches) GetMergeBase(refName string) string {
 	return ignoringWarnings(output)
 }
 
-func (self *ExistingMainBranches) determineMainBranches() []string {
+func (self *MainBranches) determineMainBranches() []string {
 	var existingBranches []string
 	var wg sync.WaitGroup
 

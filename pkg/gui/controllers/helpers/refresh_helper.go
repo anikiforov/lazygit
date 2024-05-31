@@ -331,7 +331,7 @@ func (self *RefreshHelper) refreshCommitsWithLimit() error {
 			RefName:              self.refForLog(),
 			RefForPushedStatus:   checkedOutBranchName,
 			All:                  self.c.Contexts().LocalCommits.GetShowWholeGitGraph(),
-			ExistingMainBranches: self.c.Model().ExistingMainBranches,
+			MainBranches:         self.c.Model().MainBranches,
 		},
 	)
 	if err != nil {
@@ -358,7 +358,7 @@ func (self *RefreshHelper) refreshSubCommitsWithLimit() error {
 			RefName:                 self.c.Contexts().SubCommits.GetRef().FullRefName(),
 			RefToShowDivergenceFrom: self.c.Contexts().SubCommits.GetRefToShowDivergenceFrom(),
 			RefForPushedStatus:      self.c.Contexts().SubCommits.GetRef().FullRefName(),
-			ExistingMainBranches:    self.c.Model().ExistingMainBranches,
+			MainBranches:            self.c.Model().MainBranches,
 		},
 	)
 	if err != nil {
